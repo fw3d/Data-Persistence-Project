@@ -15,6 +15,7 @@ public class MainManager : MonoBehaviour
     public Text LeaderScoreText;
     public GameObject GameOverText;
     public GameObject LeaderboardButton;
+    public GameObject RestartButton;
 
     private bool m_Started = false;
     private int m_Points;
@@ -26,6 +27,7 @@ public class MainManager : MonoBehaviour
     void Start()
     {
         LeaderboardButton.SetActive(false);
+        RestartButton.SetActive(false);
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
 
@@ -82,6 +84,7 @@ public class MainManager : MonoBehaviour
         m_GameOver = true;
         GameOverText.SetActive(true);
         LeaderboardButton.SetActive(true);
+        RestartButton.SetActive(true);
         SessionManager.Instance.AddNewHighScore(m_Points);
     }
 

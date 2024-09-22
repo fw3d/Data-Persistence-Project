@@ -549,6 +549,7 @@ MonoBehaviour:
   LeaderScoreText: {fileID: 2078529056}
   GameOverText: {fileID: 474497238}
   LeaderboardButton: {fileID: 1234840952}
+  RestartButton: {fileID: 1370023270}
 --- !u!1 &455529321
 GameObject:
   m_ObjectHideFlags: 0

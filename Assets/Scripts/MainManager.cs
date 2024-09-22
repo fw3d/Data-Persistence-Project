@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 public class MainManager : MonoBehaviour
 {
@@ -11,8 +12,10 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text LeaderScoreText;
     public GameObject GameOverText;
-    
+    public GameObject LeaderboardButton;
+
     private bool m_Started = false;
     private int m_Points;
     
@@ -22,9 +25,15 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        LeaderboardButton.SetActive(false);
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
+
+        var leader = SessionManager.Instance.entries.OrderByDescending(pl => pl.playerScore).First();
+
+        //Debug.Log(leader.playerName);
+        LeaderScoreText.text = $"Best Score : {leader.playerName} : {leader.playerScore.ToString()}";
+
         int[] pointCountArray = new [] {1,1,2,2,5,5};
         for (int i = 0; i < LineCount; ++i)
         {
@@ -57,7 +66,7 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                Restart();
             }
         }
     }
@@ -72,5 +81,17 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        LeaderboardButton.SetActive(true);
+        SessionManager.Instance.AddNewHighScore(m_Points);
+    }
+
+    public void GoToLeaderboard()
+    {
+        SceneManager.LoadScene(2);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
